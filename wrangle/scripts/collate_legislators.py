@@ -7,18 +7,9 @@ SRC_PATHS = FETCHED_DIR.glob('legislators-*.json')
 DEST_PATH = COLLATED_DIR / 'legislators.csv'
 
 
-IDS_HEADERS = ['bioguide_id', 'thomas_id', 'govtrack_id', 'opensecrets_id',
-                'icpsr_id', 'fec_ids', 'latest_fec_id']
-BIO_HEADERS = ['first_name', 'middle_name', 'last_name', 'full_name', 'birthdate', 'years_lived',
-                'gender', 'religion']
-JOB_HEADERS = ['party',  'title', 'state', 'district', 'senate_class', 'state_rank',
-               'terms_served', 'years_served', 'start_date', 'end_date']
-
-
-
 LEGISLATOR_HEADERS = [
     'bioguide_id',
-    'full_name', 'party', 'title', 'state',
+    'full_name', 'party', 'office', 'state',
     'district', 'senate_class', 'state_rank',
     'terms_served', 'years_served', 'start_date', 'end_date',
     'first_name', 'middle_name', 'last_name',
@@ -78,19 +69,16 @@ def extract_job(data, dateref):
     p['state'] = latest_term['state']
 
     # Now figure out exact title...
-    _ttype = latest_term['type']
-    if  _ttype == 'rep':
-        p['title'] = 'Representative'
+    p['office'] = latest_term['type']
+    if  p['office'] == 'rep':
         p['district'] = latest_term['district']
         p['senate_class'] = None
         p['state_rank'] = None
-    elif _ttype == 'sen':
-        p['title'] = 'Senator'
+    elif p['office'] == 'sen':
         p['district'] = None
         p['senate_class'] = latest_term['class']
         p['state_rank'] = latest_term.get('state_rank')
     else:
-        p['title'] = _ttype
         p['district'] = None
         p['senate_class'] = None
         p['state_rank'] = None
