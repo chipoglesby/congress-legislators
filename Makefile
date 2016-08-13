@@ -4,7 +4,7 @@ FETCHED_DIR=$(WRANGLE_DIR)/corral/fetched
 COLLATED_DIR=$(WRANGLE_DIR)/corral/collated
 DATA_DIR=./data
 SAMPLES_DIR=$(DATA_DIR)/samples
-
+ORIGINALS_DIR=$(DATA_DIR)/originals
 all: fetch collate
 
 fetch: $(FETCHED_DIR)/sessions.csv\
@@ -43,10 +43,12 @@ package_data:
 	# cp $(COLLATED_DIR)/terms.csv $(DATA_DIR)/congress-legislators-terms.csv
 
 package_samples:
-	mkdir -p $(SAMPLES_DIR)
-	cp $(FETCHED_DIR)/legislators-current.json $(SAMPLES_DIR)/legislators-current.json
-	cp $(FETCHED_DIR)/sessions.csv $(SAMPLES_DIR)/sessions.csv
+	mkdir -p $(ORIGINALS_DIR)
+	cp $(FETCHED_DIR)/legislators-current.json $(ORIGINALS_DIR)/legislators-current.json
+	cp $(FETCHED_DIR)/sessions.csv $(ORIGINALS_DIR)/sessions.csv
 
+	# mkdir -p $(SAMPLES_DIR)
+	# head
 
 clean:
 	rm -r wrangle/corral
