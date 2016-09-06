@@ -1,5 +1,12 @@
 # U.S. Congress Legislators and Terms in Office
 
+
+TODOS:
+
+Not sure how to incorporate congresses.csv data. Doesn't correspond to terms exactly.
+
+
+
 Three tables:
 
 - congress-legislators.csv - biographical information about each legislator, including latest term in office.
@@ -14,7 +21,4 @@ Sources:
 - legislators-historical.yaml from https://github.com/unitedstates/congress-legislators
 
 
-# Makefile
 
-Run `./make` to fetch and collate the data in the wrangle/corral stash.
-testing

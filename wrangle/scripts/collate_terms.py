@@ -1,12 +1,15 @@
+import argparse
 from csv import DictWriter
-from settings import FETCHED_DIR, COLLATED_DIR
-import json
-
-SRC_PATHS = FETCHED_DIR.glob('legislators-*.json')
-DEST_PATH = COLLATED_DIR / 'legislators-terms.csv'
+from loggy import loggy
+from sys import stdout
+import yaml
 
 TERM_HEADERS = ['bioguide_id', 'state', 'office', 'party',
                 'district', 'senate_class', 'start_date', 'end_date']
+
+LOGGY = loggy('collate_terms')
+
+
 
 def extract_term_data(term):
     p = {}
@@ -31,22 +34,32 @@ def extract_terms_data(terms):
     terms = datum['terms']
 
 
-def main():
-    destfile = DEST_PATH.open('w')
-    destcsv = DictWriter(destfile, fieldnames=TERM_HEADERS)
-    destcsv.writeheader()
 
-    for srcpath in SRC_PATHS:
-        legislators = json.loads(srcpath.read_text())
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser("Creates a simplified list of terms from the legislators files")
+    parser.add_argument('infile', type=argparse.FileType('r'), nargs='*')
+    args = parser.parse_args()
+
+    terms = []
+    for inf in args.infile:
+        LOGGY.info('Reading: %s' % inf.name)
+        legislators = yaml.load(inf.read())
+        LOGGY.info("Legislator count: %s" % len(legislators))
         for leg in legislators:
             bioguide_id = leg['id']['bioguide']
             for t in leg['terms']:
                 term = extract_term_data(t)
                 term['bioguide_id'] = bioguide_id
-                destcsv.writerow(term)
+                terms.append(term)
 
-    destfile.close()
+    LOGGY.info("Terms counted: %s" % len(terms))
 
-if __name__ == '__main__':
-    main()
+    csvout = DictWriter(stdout, fieldnames=TERM_HEADERS)
+    csvout.writeheader()
+    for term in sorted(terms, key=lambda t: (t['bioguide_id'], t['start_date'])):
+        csvout.writerow(term)
+
+
+
 

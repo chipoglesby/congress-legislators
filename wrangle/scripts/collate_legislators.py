@@ -1,11 +1,11 @@
-from settings import FETCHED_DIR, COLLATED_DIR
-from datetime import datetime
-import json
+import argparse
 from csv import DictWriter
+from datetime import datetime
+from loggy import loggy
+from sys import stdout
+import yaml
 
-SRC_PATHS = FETCHED_DIR.glob('legislators-*.json')
-DEST_PATH = COLLATED_DIR / 'legislators.csv'
-
+LOGGY = loggy('collate_legislators')
 
 LEGISLATOR_HEADERS = [
     'bioguide_id',
@@ -120,8 +120,38 @@ def main():
 
     destfile.close()
 
+
+
+
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser("Creates a simplified list of legislators from the legislators files")
+    parser.add_argument('infile', type=argparse.FileType('r'), nargs='*')
+    args = parser.parse_args()
+    today = datetime.now()
+
+
+
+
+    terms = []
+    for inf in args.infile:
+        LOGGY.info('Reading: %s' % inf.name)
+        rows = yaml.load(inf.read())
+        LOGGY.info("Record count: %s" % len(rows))
+
+        legislators = []
+        for row in rows:
+            leg = {'updated_at': today.isoformat()}
+            leg.update(extract_ids(row))
+            leg.update(extract_biography(row, dateref=today))
+            leg.update(extract_job(row, dateref=today))
+            legislators.append(leg)
+
+    csvout = DictWriter(stdout, fieldnames=LEGISLATOR_HEADERS)
+    csvout.writeheader()
+    for leg in sorted(legislators, key=lambda t: (t['bioguide_id'])):
+        csvout.writerow(leg)
+
+
 
 
 
