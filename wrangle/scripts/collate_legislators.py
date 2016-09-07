@@ -15,6 +15,7 @@ LEGISLATOR_HEADERS = [
     'first_name', 'middle_name', 'last_name',
     'birthdate', 'years_lived', 'gender', 'religion',
     'thomas_id', 'govtrack_id', 'opensecrets_id',
+    'lis_id', 'votesmart_id', 'cspan_id',
     'icpsr_id', 'fec_ids', 'latest_fec_id',
     'updated_at'
 ]
@@ -46,9 +47,14 @@ def extract_ids(data):
     p['govtrack_id'] = ids.get('govtrack')
     p['opensecrets_id'] = ids.get('opensecrets')
     p['icpsr_id'] = ids.get('icpsr')
+    p['lis_id'] = ids.get('lis')
+    p['votesmart_id'] = ids.get('votesmart')
+    p['cspan_id'] = ids.get('cspan')
+
     if ids.get('fec'):
         p['fec_ids'] = ';'.join(ids['fec'])
         p['latest_fec_id'] = ids['fec'][0]
+
     return p
 
 
@@ -132,13 +138,13 @@ if __name__ == '__main__':
 
 
 
-    terms = []
+    legislators = []
     for inf in args.infile:
         LOGGY.info('Reading: %s' % inf.name)
         rows = yaml.load(inf.read())
         LOGGY.info("Record count: %s" % len(rows))
 
-        legislators = []
+
         for row in rows:
             leg = {'updated_at': today.isoformat()}
             leg.update(extract_ids(row))
