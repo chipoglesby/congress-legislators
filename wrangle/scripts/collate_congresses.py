@@ -4,7 +4,7 @@ from collections import defaultdict
 from loggy import loggy
 from sys import stdout
 
-CONGRESS_HEADERS = ['congress', 'start_date', 'end_date']
+CONGRESS_HEADERS = ['congressnumber', 'start_date', 'end_date']
 
 LOGGY = loggy('loggy')
 
@@ -22,7 +22,7 @@ def extract_congresses(sessions):
     congresses = []
     for congress, sessions in sorted(data.items(), key=lambda x: int(x[0])):
         congresses.append({
-                'congress': congress,
+                'congressnumber': congress,
                 'start_date': sessions[0][0],
                 'end_date': sessions[-1][-1]
         })

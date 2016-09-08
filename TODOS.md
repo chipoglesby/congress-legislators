@@ -1,0 +1,1 @@
+- Refactor rake:publish -- each file should have its own publish task

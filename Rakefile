@@ -78,6 +78,7 @@ python #{SCRIPTS / 'collate_legislators.py'} \
       end
 
 
+      desc "The file containing congress and numbers"
       file C_FILES['congresses'] => F_FILES['sessions'] do
         sh %Q{
 python #{SCRIPTS / 'collate_congresses.py'} \
