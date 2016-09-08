@@ -1,0 +1,252 @@
+fields:
+  - name: bioguide_id
+    type: string
+    length: 7
+    examples:
+    - H000997
+    - G000533
+    - B000640
+    - C000655
+  - name: full_name
+    type: string
+    length: 38
+    examples:
+    - Jon Kyl
+    - Anh Cao
+    - Samuel Beach Axtell
+    - Pierre Jean Baptiste Evariste Bossier
+    - Alexander Cumming McWhorter Pennington
+  - name: party
+    type: string
+    has_nulls: true
+    length: 26
+    examples:
+    - Whig
+    - Adams
+    - Law and Order
+    - Ind. Republican-Democrat
+    - Democratic and Union Labor
+  - name: office
+    type: string
+    length: 3
+    enumerations:
+    - rep
+    - sen
+  - name: state
+    type: string
+    length: 2
+    examples:
+    - NY
+    - PA
+    - NE
+    - value: "OL"
+      description: "Territory of Orleans; no longer exists"
+    - MP
+  - name: district
+    type: float
+    has_nulls: true
+    unsigned: false
+    length: 4
+    description: The House district number
+    examples:
+    - value: -1
+      description: Represents a missing value for historical data.
+    - 53
+    - 25
+  - name: senate_class
+    type: float
+    has_nulls: true
+    length: 1
+    enumerations:
+      - 1
+      - 2
+      - 3
+  - name: state_rank
+    type: string
+    has_nulls: true
+    length: 6
+    enumerations:
+      - junior
+      - senior
+  - name: terms_served
+    type: integer
+    length: 2
+    examples:
+    - 0
+    - 56
+    - 26
+  - name: years_served
+    type: float
+    has_nulls: true
+    length:
+    - 6
+    - 2
+    examples:
+    - 1.8
+    - 2693.84
+    - 28.14
+  - name: start_date
+    type: date
+    examples:
+    - '1789-03-04'
+    - '2016-06-09'
+    - '1858-01-01'
+  - name: end_date
+    type: date
+    examples:
+    - '1791-03-03'
+    - '2021-01-03'
+    - '1865-12-31'
+  - name: first_name
+    type: string
+    length: 12
+    examples:
+    - J.
+    - Ed
+    - Barker
+    - Barbara-Rose
+    - Epaphroditus
+  - name: middle_name
+    type: string
+    has_nulls: true
+    length: 22
+    examples:
+    - C
+    - A.
+    - Eastin
+    - Boynton Philip Clayton
+    - Jean Baptiste Evariste
+  - name: last_name
+    type: string
+    length: 19
+    examples:
+    - Wu
+    - Lee
+    - Herrick
+    - O'Loughlin McCarthy
+    - Margolies-Mezvinsky
+  - name: birthdate
+    type: date
+    has_nulls: true
+    examples:
+    - '1721-04-19'
+    - '1984-07-02'
+    - '1850-12-28'
+  - name: years_lived
+    type: float
+    has_nulls: true
+    length:
+    - 4
+    - 1
+    examples:
+    - 32.2
+    - 295.6
+    - 187.1
+  - name: gender
+    type: string
+    length: 1
+    enumerations:
+    - F
+    - M
+  - name: religion
+    type: string
+    has_nulls: true
+    length: 44
+    examples:
+    - Jewish
+    - Baptist
+    - Assembly of God
+    - African Methodist Episcopal
+    - First Christian Church (Disciples of Christ)
+  - name: thomas_id
+    type: float
+    has_nulls: true
+    length:
+    - 5
+    - 1
+    examples:
+    - 1.0
+    - 2296.0
+    - 1092.0
+  - name: govtrack_id
+    type: integer
+    length: 6
+    examples:
+    - 300001
+    - 412675
+    - 409588
+  - name: opensecrets_id
+    type: string
+    has_nulls: true
+    length: 9
+    examples:
+    - N00006811
+    - N00002630
+    - N00029139
+    - N00000133
+    - N00035267
+  - name: lis_id
+    type: string
+    has_nulls: true
+    length: 4
+    examples:
+    - S224
+    - S223
+    - S051
+    - S320
+    - S035
+  - name: votesmart_id
+    type: float
+    has_nulls: true
+    length:
+    - 7
+    - 1
+    examples:
+    - 0.0
+    - 166760.0
+    - 19157.0
+  - name: cspan_id
+    type: float
+    has_nulls: true
+    length:
+    - 8
+    - 1
+    examples:
+    - 5.0
+    - 9269028.0
+    - 1552.0
+  - name: icpsr_id
+    type: float
+    has_nulls: true
+    length:
+    - 6
+    - 1
+    examples:
+    - 1.0
+    - 99342.0
+    - 6261.0
+  - name: fec_ids
+    description: |
+      The majority of legislators just have one FEC committee ID. Multiple IDs are delimited by semi-colon.
+    type: string
+    has_nulls: true
+    length: 29
+    examples:
+    - H2WA04041
+    - S2CA00286;H2CA06028;P80003247
+
+  - name: latest_fec_id
+    type: string
+    description: |
+      The FEC-issued identifier for the legislator's current primary campaign committee.
+    has_nulls: true
+    length: 9
+    examples:
+    - H2WA04041
+    - H0IN02125
+
+  - name: updated_at
+    type: datetime
+    description: The timestamp of when this data was last updated on github.com/unitedstates/congress-legislators
+    examples:
+      - '2016-09-06T20:16:26.819160'

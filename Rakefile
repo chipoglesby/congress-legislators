@@ -24,9 +24,9 @@ C_FILES = {
 
 
 P_FILES = {
-  'legislators' => DIRS['published'] / 'legislators.csv',
+  'legislators' => DIRS['published'] / 'congress-legislators.csv',
   'congresses' => DIRS['published'] / 'congresses.csv',
-  'terms' => DIRS['published'] / 'terms.csv',
+  'terms' => DIRS['published'] / 'congress-terms.csv',
 }
 
 
@@ -52,10 +52,8 @@ end
 
 desc "Publish everything"
 task :publish  => C_FILES.values() do
-  C_FILES.each_value do |fn|
-    sh %Q{
-cp #{fn} #{DIRS['published'] / fn.basename}
-    }
+  C_FILES.each_key do |key|
+    sh "cp #{C_FILES[key]} #{P_FILES[key]}"
   end
 end
 

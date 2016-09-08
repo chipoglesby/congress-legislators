@@ -1,6 +1,6 @@
 fields:
   - name: congressnumber
-    description:
+    description: The number of the Congress.
     type: integer
     length: 2
     examples:
