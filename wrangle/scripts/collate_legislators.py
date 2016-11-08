@@ -13,7 +13,7 @@ LEGISLATOR_HEADERS = [
     'district', 'senate_class', 'state_rank',
     'terms_served', 'years_served', 'start_date', 'end_date',
     'first_name', 'middle_name', 'last_name',
-    'birthdate', 'years_lived', 'gender', 'religion',
+    'birthdate',  'gender', 'religion',
     'thomas_id', 'govtrack_id', 'opensecrets_id',
     'lis_id', 'votesmart_id', 'cspan_id',
     'icpsr_id', 'fec_ids', 'latest_fec_id',
@@ -31,11 +31,12 @@ def extract_biography(data, dateref):
         or ' '.join([p[n] for n in ['first_name', 'middle_name', 'last_name'] if p.get(n)])
     # set the biography
     p['birthdate'] = data['bio'].get('birthday')
-    if p['birthdate']:
-        _dayslived = (dateref - datetime.strptime(p['birthdate'], '%Y-%m-%d')).days
-        p['years_lived'] = round(_dayslived / 365, 1)
-    else:
-        p['years_lived'] = None
+ #   if p['birthdate']:
+ #       _dayslived = (dateref - datetime.strptime(p['birthdate'], '%Y-%m-%d')).days
+ #       p['years_lived'] = round(_dayslived / 365, 1)
+ #   else:
+ #       pass
+ #       p['years_lived'] = None
     p['gender'] = data['bio']['gender']
     p['religion'] = data['bio'].get('religion')
     return p
@@ -99,9 +100,10 @@ def extract_job(data, dateref):
         datey = datetime.strptime(term['end'], '%Y-%m-%d')
         days_served += (datey - datex).days
         # manually calculate days served in current term
-        days_served += (dateref - latest_term_startdate).days
         p['terms_served'] += 1
-        p['years_served'] = round(days_served / 365, 2)
+
+    days_served += (dateref - latest_term_startdate).days
+    p['years_served'] = round(days_served / 365, 2)
 
     return p
 
